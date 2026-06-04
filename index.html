@@ -681,6 +681,12 @@
 // =============================================
 const GAS_URL_KEY = 'crm_gas_url'; // ローカルストレージのキー名
 
+// =============================================
+// ★ここにGASのURLを直接書いておくと
+//   LINEブラウザでも毎回自動で接続されます
+// =============================================
+const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbwFcS5Q9Ymy8wJvQZmpj2xXG-pDpgfoeF61g8Up_bXL_Gyuvovfbhs-ERPiN2REbTKi3A/exec';
+
 // メモリキャッシュ（API通信の削減のため）
 let cache = {
   customers: null,
@@ -693,7 +699,9 @@ let cache = {
 // GAS URL の設定・取得
 // =============================================
 function getGasUrl() {
-  return localStorage.getItem(GAS_URL_KEY) || '';
+  // localStorageに保存されたURLがあればそれを使い、
+  // なければDEFAULT_GAS_URLを使う（LINEブラウザ対応）
+  return localStorage.getItem(GAS_URL_KEY) || DEFAULT_GAS_URL;
 }
 
 function saveGasUrl() {

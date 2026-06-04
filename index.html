@@ -48,13 +48,59 @@
 
     /* メインエリア */
     #main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
-    #topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-    .topbar-title { font-size: 1.05rem; font-weight: 700; }
-    .topbar-right { display: flex; align-items: center; gap: 12px; }
-    .search-box { display: flex; align-items: center; gap: 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 6px 12px; font-size: 0.85rem; }
-    .search-box input { border: none; background: transparent; outline: none; font-family: var(--font-base); font-size: 0.85rem; color: var(--text); width: 200px; }
+    #topbar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 16px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      gap: 8px;
+      min-width: 0; /* はみ出し防止 */
+    }
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      flex-shrink: 0;
+    }
+    .topbar-title {
+      font-size: 1rem;
+      font-weight: 700;
+      white-space: nowrap; /* 改行させない */
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .topbar-right { display: flex; align-items: center; gap: 8px; min-width: 0; }
+    /* 接続ステータスはスマホでは小さく */
+    #connection-status { font-size: 0.75rem; font-weight: 600; display: flex; align-items: center; gap: 4px; white-space: nowrap; flex-shrink: 0; }
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 10px;
+      min-width: 0;
+    }
+    .search-box input {
+      border: none;
+      background: transparent;
+      outline: none;
+      font-family: var(--font-base);
+      font-size: 0.85rem;
+      color: var(--text);
+      width: 160px;
+      min-width: 0;
+    }
     .search-box input::placeholder { color: var(--text-muted); }
-    #menu-toggle { display: none; background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--text); }
+    #menu-toggle { display: none; background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--text); flex-shrink: 0; padding: 4px; }
     #content { padding: 24px; flex: 1; }
     .section { display: none; }
     .section.active { display: block; }
@@ -198,10 +244,17 @@
       .form-grid { grid-template-columns: 1fr; }
       .form-grid .full { grid-column: 1; }
       .summary-grid { grid-template-columns: 1fr 1fr; }
-      #content { padding: 16px; }
-      .search-box input { width: 130px; }
+      #content { padding: 12px; }
       #invoice-preview { padding: 20px; }
       .inv-header { flex-direction: column; gap: 16px; }
+      #topbar { padding: 0 10px; height: 52px; }
+      .topbar-title { font-size: 0.9rem; }
+      .search-box input { width: 90px; font-size: 0.78rem; }
+      .search-box { padding: 5px 8px; }
+      #status-text { display: none; }
+    }
+    @media (max-width: 390px) {
+      .search-box input { width: 60px; }
     }
     #sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 199; }
     #sidebar-overlay.show { display: block; }
@@ -244,19 +297,19 @@
 <!-- メインエリア -->
 <div id="main">
   <div id="topbar">
-    <div style="display:flex;align-items:center;gap:12px;">
+    <div class="topbar-left">
       <button id="menu-toggle">☰</button>
       <span class="topbar-title" id="topbar-title">ダッシュボード</span>
     </div>
     <div class="topbar-right">
-      <!-- 接続ステータス表示 -->
-      <div id="connection-status" style="font-size:0.78rem;font-weight:600;display:flex;align-items:center;gap:5px;">
-        <span id="status-dot" style="width:8px;height:8px;border-radius:50%;background:#ccc;display:inline-block;"></span>
+      <!-- 接続ステータス（スマホではドットのみ） -->
+      <div id="connection-status">
+        <span id="status-dot" style="width:8px;height:8px;border-radius:50%;background:#ccc;display:inline-block;flex-shrink:0;"></span>
         <span id="status-text">未接続</span>
       </div>
       <div class="search-box">
-        <span>🔍</span>
-        <input type="text" id="global-search" placeholder="顧客名・会社名で検索…">
+        <span style="flex-shrink:0;">🔍</span>
+        <input type="text" id="global-search" placeholder="検索…">
       </div>
     </div>
   </div>
